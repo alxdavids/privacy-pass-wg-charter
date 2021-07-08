@@ -14,30 +14,193 @@ protocol. It provides recommendations on how the protocol ecosystem
 should be constructed to ensure the privacy of clients, and the security
 of all participating entities. 
     " name="description">
-<meta content="xml2rfc 3.5.0" name="generator">
+<meta content="xml2rfc 3.9.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-privacypass-architecture" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.5.0
-    Python 3.8.7
+  xml2rfc 3.9.1
+    Python 3.9.5
     appdirs 1.4.4
-    ConfigArgParse 1.2.3
-    google-i18n-address 2.4.0
+    ConfigArgParse 1.3
+    google-i18n-address 2.5.0
     html5lib 1.1
     intervaltree 3.1.0
-    Jinja2 2.11.2
+    Jinja2 2.11.3
     kitchen 1.2.6
-    lxml 4.6.2
+    lxml 4.6.3
     pycountry 20.7.3
-    pyflakes 2.2.0
+    pyflakes 2.3.0
     PyYAML 5.4.1
     requests 2.25.1
-    setuptools 51.3.3
+    setuptools 52.0.0
     six 1.15.0
 -->
 <link href="draft-ietf-privacypass-architecture.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
-<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 html {
   --background-color: #fff;
@@ -87,11 +250,17 @@ body {
   color: var(--title-color);
 }
 #title {
-  padding: 1em 0 0.2em;
   font-size: 32px;
   line-height: 40px;
   clear: both;
 }
+#title, #rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+#rfcnum + #title {
+  margin: 0.2em 0;
+}
+
 h1, h2, h3 {
   font-size: 22px;
   line-height: 27px;
@@ -842,11 +1011,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">PP architecture</td>
-<td class="right">February 2021</td>
+<td class="right">July 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Davidson &amp; Wood</td>
-<td class="center">Expires 25 August 2021</td>
+<td class="center">Expires 9 January 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -859,12 +1028,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-privacypass-architecture</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-02-21" class="published">21 February 2021</time>
+<time datetime="2021-07-08" class="published">8 July 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-08-25">25 August 2021</time></dd>
+<dd class="expires"><time datetime="2022-01-09">9 January 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -906,7 +1075,7 @@ of all participating entities.<a href="#section-abstract-1" class="pilcrow">¶</
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 August 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 January 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -934,163 +1103,163 @@ of all participating entities.<a href="#section-abstract-1" class="pilcrow">¶</
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
+<nav class="toc"><ul class="ulBare compact ulEmpty toc">
+<li class="ulBare compact ulEmpty toc" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology" class="xref">Terminology</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology" class="xref">Terminology</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-ecosystem-participants" class="xref">Ecosystem participants</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-servers" class="xref">Servers</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-ecosystem-participants" class="xref">Ecosystem participants</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-servers" class="xref">Servers</a></p>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-clients" class="xref">Clients</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-client-identifying-informat" class="xref">Client identifying information</a><a href="#section-toc.1-1.3.2.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-                </ul>
-</li>
-            </ul>
-</li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-key-management-and-discover" class="xref">Key management and discovery</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-key-rotation" class="xref">Key rotation</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-ciphersuites" class="xref">Ciphersuites</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-server-running-modes" class="xref">Server running modes</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-single-verifier" class="xref">Single-Verifier</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-delegated-verifier" class="xref">Delegated-Verifier</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-asynchronous-verifier" class="xref">Asynchronous-Verifier</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="xref">5.4</a>.  <a href="#name-public-verifier" class="xref">Public-Verifier</a><a href="#section-toc.1-1.5.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.5">
-                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="xref">5.5</a>.  <a href="#name-bounded-number-of-servers" class="xref">Bounded number of servers</a><a href="#section-toc.1-1.5.2.5.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-metadata" class="xref">Metadata</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-client-privacy-implications" class="xref">Client privacy implications</a><a href="#section-toc.1-1.6.2.1.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-client-server-trust-relatio" class="xref">Client-Server trust relationship</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-privacy-considerations" class="xref">Privacy considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-server-key-rotation" class="xref">Server key rotation</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-large-numbers-of-servers" class="xref">Large numbers of servers</a><a href="#section-toc.1-1.8.2.2.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.2.2.1">
-                    <p id="section-toc.1-1.8.2.2.2.1.1"><a href="#section-8.2.1" class="xref">8.2.1</a>.  <a href="#name-allowing-larger-number-of-s" class="xref">Allowing larger number of servers</a><a href="#section-toc.1-1.8.2.2.2.1.1" class="pilcrow">¶</a></p>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-clients" class="xref">Clients</a></p>
+<ul class="ulBare ulEmpty compact toc">
+<li class="ulBare ulEmpty compact toc" id="section-toc.1-1.3.2.2.2.1">
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-client-identifying-informat" class="xref">Client identifying information</a></p>
 </li>
                 </ul>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="xref">8.3</a>.  <a href="#name-partitioning-of-server-key-" class="xref">Partitioning of server key material</a><a href="#section-toc.1-1.8.2.3.1" class="pilcrow">¶</a></p>
+            </ul>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.8.2.4">
-                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="xref">8.4</a>.  <a href="#name-tracking-and-identity-leaka" class="xref">Tracking and identity leakage</a><a href="#section-toc.1-1.8.2.4.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-key-management-and-discover" class="xref">Key management and discovery</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-key-rotation" class="xref">Key rotation</a></p>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.8.2.5">
-                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="xref">8.5</a>.  <a href="#name-client-incentives-for-anony" class="xref">Client incentives for anonymity reduction</a><a href="#section-toc.1-1.8.2.5.1" class="pilcrow">¶</a></p>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-ciphersuites" class="xref">Ciphersuites</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-security-considerations" class="xref">Security considerations</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-double-spend-protection" class="xref">Double-spend protection</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-server-running-modes" class="xref">Server running modes</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-single-verifier" class="xref">Single-Verifier</a></p>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-token-exhaustion" class="xref">Token exhaustion</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-delegated-verifier" class="xref">Delegated-Verifier</a></p>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="xref">9.3</a>.  <a href="#name-avoiding-server-centralizat" class="xref">Avoiding server centralization</a><a href="#section-toc.1-1.9.2.3.1" class="pilcrow">¶</a></p>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-asynchronous-verifier" class="xref">Asynchronous-Verifier</a></p>
 </li>
-            </ul>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="xref">5.4</a>.  <a href="#name-public-verifier" class="xref">Public-Verifier</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-protocol-parametrization" class="xref">Protocol parametrization</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="xref">10.1</a>.  <a href="#name-justification" class="xref">Justification</a><a href="#section-toc.1-1.10.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.10.2.2">
-                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="xref">10.2</a>.  <a href="#name-example-parameterization" class="xref">Example parameterization</a><a href="#section-toc.1-1.10.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.10.2.3">
-                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="xref">10.3</a>.  <a href="#name-allowing-more-servers" class="xref">Allowing more servers</a><a href="#section-toc.1-1.10.2.3.1" class="pilcrow">¶</a></p>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="xref">5.5</a>.  <a href="#name-bounded-number-of-servers" class="xref">Bounded number of servers</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="xref">11</a>. <a href="#name-extension-integration-polic" class="xref">Extension integration policy</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-12" class="xref">12</a>. <a href="#name-existing-applications" class="xref">Existing applications</a><a href="#section-toc.1-1.12.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.12.2.1">
-                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="xref">12.1</a>.  <a href="#name-cloudflare-challenge-pages" class="xref">Cloudflare challenge pages</a><a href="#section-toc.1-1.12.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.12.2.2">
-                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="xref">12.2</a>.  <a href="#name-trust-token-api" class="xref">Trust Token API</a><a href="#section-toc.1-1.12.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.12.2.3">
-                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="xref">12.3</a>.  <a href="#name-zero-knowledge-access-passe" class="xref">Zero-knowledge Access Passes</a><a href="#section-toc.1-1.12.2.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.12.2.4">
-                <p id="section-toc.1-1.12.2.4.1"><a href="#section-12.4" class="xref">12.4</a>.  <a href="#name-basic-attention-tokens" class="xref">Basic Attention Tokens</a><a href="#section-toc.1-1.12.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.12.2.5">
-                <p id="section-toc.1-1.12.2.5.1"><a href="#section-12.5" class="xref">12.5</a>.  <a href="#name-token-based-services" class="xref">Token Based Services</a><a href="#section-toc.1-1.12.2.5.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-metadata" class="xref">Metadata</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-client-privacy-implications" class="xref">Client privacy implications</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#section-13" class="xref">13</a>. <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.13.1" class="pilcrow">¶</a></p>
-<ul class="ulEmpty toc compact">
-<li class="ulEmpty toc compact" id="section-toc.1-1.13.2.1">
-                <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="xref">13.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.13.2.1.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-client-server-trust-relatio" class="xref">Client-Server trust relationship</a></p>
 </li>
-              <li class="ulEmpty toc compact" id="section-toc.1-1.13.2.2">
-                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="xref">13.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.13.2.2.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-privacy-considerations" class="xref">Privacy considerations</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-server-key-rotation" class="xref">Server key rotation</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-large-numbers-of-servers" class="xref">Large numbers of servers</a></p>
+<ul class="ulBare ulEmpty compact toc">
+<li class="ulBare ulEmpty compact toc" id="section-toc.1-1.8.2.2.2.1">
+                    <p id="section-toc.1-1.8.2.2.2.1.1"><a href="#section-8.2.1" class="xref">8.2.1</a>.  <a href="#name-allowing-larger-number-of-s" class="xref">Allowing larger number of servers</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="xref">8.3</a>.  <a href="#name-partitioning-of-server-key-" class="xref">Partitioning of server key material</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.8.2.4">
+                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="xref">8.4</a>.  <a href="#name-tracking-and-identity-leaka" class="xref">Tracking and identity leakage</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.8.2.5">
+                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="xref">8.5</a>.  <a href="#name-client-incentives-for-anony" class="xref">Client incentives for anonymity reduction</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-contributors" class="xref">Contributors</a><a href="#section-toc.1-1.14.1" class="pilcrow">¶</a></p>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-security-considerations" class="xref">Security considerations</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-double-spend-protection" class="xref">Double-spend protection</a></p>
 </li>
-          <li class="ulEmpty toc compact" id="section-toc.1-1.15">
-            <p id="section-toc.1-1.15.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.15.1" class="pilcrow">¶</a></p>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-token-exhaustion" class="xref">Token exhaustion</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="xref">9.3</a>.  <a href="#name-avoiding-server-centralizat" class="xref">Avoiding server centralization</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-protocol-parametrization" class="xref">Protocol parametrization</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="xref">10.1</a>.  <a href="#name-justification" class="xref">Justification</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="xref">10.2</a>.  <a href="#name-example-parameterization" class="xref">Example parameterization</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.10.2.3">
+                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="xref">10.3</a>.  <a href="#name-allowing-more-servers" class="xref">Allowing more servers</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="xref">11</a>. <a href="#name-extension-integration-polic" class="xref">Extension integration policy</a></p>
+</li>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="xref">12</a>. <a href="#name-existing-applications" class="xref">Existing applications</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.12.2.1">
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="xref">12.1</a>.  <a href="#name-cloudflare-challenge-pages" class="xref">Cloudflare challenge pages</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.12.2.2">
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="xref">12.2</a>.  <a href="#name-trust-token-api" class="xref">Trust Token API</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.12.2.3">
+                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="xref">12.3</a>.  <a href="#name-zero-knowledge-access-passe" class="xref">Zero-knowledge Access Passes</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.12.2.4">
+                <p id="section-toc.1-1.12.2.4.1"><a href="#section-12.4" class="xref">12.4</a>.  <a href="#name-basic-attention-tokens" class="xref">Basic Attention Tokens</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.12.2.5">
+                <p id="section-toc.1-1.12.2.5.1"><a href="#section-12.5" class="xref">12.5</a>.  <a href="#name-token-based-services" class="xref">Token Based Services</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="xref">13</a>. <a href="#name-references" class="xref">References</a></p>
+<ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.13.2.1">
+                <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="xref">13.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+</li>
+              <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.13.2.2">
+                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="xref">13.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-A" class="xref">Appendix A</a>.  <a href="#name-contributors" class="xref">Contributors</a></p>
+</li>
+          <li class="ulBare compact ulEmpty toc" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-B" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1402,8 +1571,8 @@ from V. Hence "Asynchronous-Verifier" (AV).<a href="#section-5.3-1" class="pilcr
 with S in a separate session. If verification is carried out
 successfully by S, S instead returns a Signed Redemption Record (SRR)
 that contains the following information:<a href="#section-5.3-2" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-json" id="section-5.3-3">
-<pre>
+<div id="section-5.3-3">
+<pre class="sourcecode lang-json">
 "result": {
   "timestamp":"2019-10-09-11:06:11",
   "verifier": "V",
@@ -1658,6 +1827,58 @@ system. For example, these 4 servers could be different for each client.
 Therefore, the selection of servers they possess tokens for is still
 revealing. Understanding this trade-off is important in deciding the
 effective anonymity of each client in the system.<a href="#section-8.2.1-3" class="pilcrow">¶</a></p>
+<div id="redemption-contexts">
+<section id="section-8.2.1.1">
+            <h5 id="name-redemption-contexts">
+<a href="#section-8.2.1.1" class="section-number selfRef">8.2.1.1. </a><a href="#name-redemption-contexts" class="section-name selfRef">Redemption Contexts</a>
+            </h5>
+<p id="section-8.2.1.1-1">Another option to allow a large number of servers in the ecosystem,
+while preventing the joining of a bunch of different tokens is for the
+client to maintain sharded "redemption contexts", which allows the
+client to redeem the tokens it wishes to use in a particular context,
+while still allowing the client to maintain a large variety of tokens
+from many servers. Within a redemption context, the client limits the
+number of different servers used to a small number to maintain the
+privacy properties the client requires. As long as each redemption
+context maintains a strong privacy boundary with each other, the
+verifier will only be able to learn a number of bits of information up
+to the limits within that "redemption context".<a href="#section-8.2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.2.1.1-2">To support this strategy, the client keeps track of a <code>context</code> which
+contains the set of servers that redemptions have been attempted
+against and which returns an empty redemption when the limit has been
+hit:<a href="#section-8.2.1.1-2" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-8.2.1.1-3">
+<pre>
+  Client(context, server)                     Server(skS, pkS)
+  ------------------------------------------------------------
+  if server not in context {
+    if context.length &gt; REDEEM_LIMIT {
+      Output {}
+      return
+    }
+    context.push(server)
+  }
+  token = store[server.id].pop()
+  req = Redeem(token, info)
+
+                               req
+                        ------------------&gt;
+
+                               if (dsIdx.includes(req.data)) {
+                                 raise ERR_DOUBLE_SPEND
+                               }
+                               resp = Verify(pkS, skS, req)
+                               if (resp.success) {
+                                 dsIdx.push(req.data)
+                               }
+
+                                resp
+                        &lt;------------------
+  Output resp
+</pre><a href="#section-8.2.1.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -2044,19 +2265,19 @@ currency. This is also similar to how ZKAPs are used.<a href="#section-12.5-1" c
 <dd class="break"></dd>
 <dt id="HIJK21">[HIJK21]</dt>
         <dd>
-<span class="refAuthor">Huang, S.</span><span class="refAuthor">, Iyengar, S.</span><span class="refAuthor">, Jeyaraman, S.</span><span class="refAuthor">, Kushwah, S.</span><span class="refAuthor">, Lee, C.K.</span><span class="refAuthor">, Luo, Z.</span><span class="refAuthor">, Mohassel, P.</span><span class="refAuthor">, Raghunathan, A.</span><span class="refAuthor">, Shaikh, S.</span><span class="refAuthor">, Sung, Y.C.</span><span class="refAuthor">, and A. Zhang</span>, <span class="refTitle">"PrivateStats: De-Identified Authenticated Logging at Scale"</span>, <time datetime="2021-01" class="refDate">January 2021</time>, <span>&lt;<a href="https://research.fb.com/wp-content/uploads/2021/01/PrivateStats-De-Identified-Authenticated-Logging-at-Scale_final.pdf">https://research.fb.com/wp-content/uploads/2021/01/PrivateStats-De-Identified-Authenticated-Logging-at-Scale_final.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Huang, S.</span>, <span class="refAuthor">Iyengar, S.</span>, <span class="refAuthor">Jeyaraman, S.</span>, <span class="refAuthor">Kushwah, S.</span>, <span class="refAuthor">Lee, C.K.</span>, <span class="refAuthor">Luo, Z.</span>, <span class="refAuthor">Mohassel, P.</span>, <span class="refAuthor">Raghunathan, A.</span>, <span class="refAuthor">Shaikh, S.</span>, <span class="refAuthor">Sung, Y.C.</span>, and <span class="refAuthor">A. Zhang</span>, <span class="refTitle">"PrivateStats: De-Identified Authenticated Logging at Scale"</span>, <time datetime="2021-01" class="refDate">January 2021</time>, <span>&lt;<a href="https://research.fb.com/wp-content/uploads/2021/01/PrivateStats-De-Identified-Authenticated-Logging-at-Scale_final.pdf">https://research.fb.com/wp-content/uploads/2021/01/PrivateStats-De-Identified-Authenticated-Logging-at-Scale_final.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-privacypass-http-api">[I-D.ietf-privacypass-http-api]</dt>
         <dd>
-<span class="refAuthor">Valdez, S.</span>, <span class="refTitle">"Privacy Pass HTTP API"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-http-api-00</span>, <time datetime="2021-01-05" class="refDate">5 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-http-api-00.txt">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-http-api-00.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Valdez, S.</span>, <span class="refTitle">"Privacy Pass HTTP API"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-http-api-00</span>, <time datetime="2021-01-05" class="refDate">5 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-http-api-00">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-http-api-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-privacypass-protocol">[I-D.ietf-privacypass-protocol]</dt>
         <dd>
-<span class="refAuthor">Celi, S.</span><span class="refAuthor">, Davidson, A.</span><span class="refAuthor">, and A. Faz-Hernandez</span>, <span class="refTitle">"Privacy Pass Protocol Specification"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-protocol-00</span>, <time datetime="2021-01-05" class="refDate">5 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-protocol-00.txt">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-protocol-00.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Celi, S.</span>, <span class="refAuthor">Davidson, A.</span>, and <span class="refAuthor">A. Faz-Hernandez</span>, <span class="refTitle">"Privacy Pass Protocol Specification"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-protocol-01</span>, <time datetime="2021-02-22" class="refDate">22 February 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-protocol-01">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-protocol-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="KLOR20">[KLOR20]</dt>
         <dd>
-<span class="refAuthor">Kreuter, B.</span><span class="refAuthor">, Lepoint, T.</span><span class="refAuthor">, Orrù, M.</span><span class="refAuthor">, and M. Raykova</span>, <span class="refTitle">"Anonymous Tokens with Private Metadata Bit"</span>, <span class="seriesInfo">Advances in Cryptology - CRYPTO 2020 pp. 308-336</span>, <span class="seriesInfo">DOI 10.1007/978-3-030-56784-2_11</span>, <time datetime="2020" class="refDate">2020</time>, <span>&lt;<a href="https://doi.org/10.1007/978-3-030-56784-2_11">https://doi.org/10.1007/978-3-030-56784-2_11</a>&gt;</span>. </dd>
+<span class="refAuthor">Kreuter, B.</span>, <span class="refAuthor">Lepoint, T.</span>, <span class="refAuthor">Orrù, M.</span>, and <span class="refAuthor">M. Raykova</span>, <span class="refTitle">"Anonymous Tokens with Private Metadata Bit"</span>, <span class="seriesInfo">Advances in Cryptology - CRYPTO 2020 pp. 308-336</span>, <span class="seriesInfo">DOI 10.1007/978-3-030-56784-2_11</span>, <time datetime="2020" class="refDate">2020</time>, <span>&lt;<a href="https://doi.org/10.1007/978-3-030-56784-2_11">https://doi.org/10.1007/978-3-030-56784-2_11</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="OpenPrivacy">[OpenPrivacy]</dt>
         <dd>
@@ -2076,7 +2297,7 @@ currency. This is also similar to how ZKAPs are used.<a href="#section-12.5-1" c
 <dd class="break"></dd>
 <dt id="RFC6962">[RFC6962]</dt>
         <dd>
-<span class="refAuthor">Laurie, B.</span><span class="refAuthor">, Langley, A.</span><span class="refAuthor">, and E. Kasper</span>, <span class="refTitle">"Certificate Transparency"</span>, <span class="seriesInfo">RFC 6962</span>, <span class="seriesInfo">DOI 10.17487/RFC6962</span>, <time datetime="2013-06" class="refDate">June 2013</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc6962">https://datatracker.ietf.org/doc/html/rfc6962</a>&gt;</span>. </dd>
+<span class="refAuthor">Laurie, B.</span>, <span class="refAuthor">Langley, A.</span>, and <span class="refAuthor">E. Kasper</span>, <span class="refTitle">"Certificate Transparency"</span>, <span class="seriesInfo">RFC 6962</span>, <span class="seriesInfo">DOI 10.17487/RFC6962</span>, <time datetime="2013-06" class="refDate">June 2013</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc6962">https://datatracker.ietf.org/doc/html/rfc6962</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TrustTokenAPI">[TrustTokenAPI]</dt>
       <dd>
@@ -2086,20 +2307,20 @@ currency. This is also similar to how ZKAPs are used.<a href="#section-12.5-1" c
 </section>
 </section>
 <div id="contributors">
-<section id="section-appendix.a">
+<section id="appendix-A">
       <h2 id="name-contributors">
-<a href="#section-appendix.a" class="section-number selfRef">Appendix A. </a><a href="#name-contributors" class="section-name selfRef">Contributors</a>
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
 <ul class="normal">
-<li class="normal" id="section-appendix.a-1.1">Alex Davidson (alex.davidson92@gmail.com)<a href="#section-appendix.a-1.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A-1.1">Alex Davidson (alex.davidson92@gmail.com)<a href="#appendix-A-1.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-1.2">Christopher Wood (caw@heapingbits.net)<a href="#section-appendix.a-1.2" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-A-1.2">Christopher Wood (caw@heapingbits.net)<a href="#appendix-A-1.2" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="section-appendix.b">
+<section id="appendix-B">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>

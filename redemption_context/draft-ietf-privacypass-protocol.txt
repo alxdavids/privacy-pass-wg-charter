@@ -5,10 +5,10 @@
 Network Working Group                                            S. Celi
 Internet-Draft                                                Cloudflare
 Intended status: Informational                               A. Davidson
-Expires: 25 August 2021                                              LIP
+Expires: 9 January 2022                                              LIP
                                                         A. Faz-Hernandez
                                                               Cloudflare
-                                                        21 February 2021
+                                                             8 July 2021
 
 
                   Privacy Pass Protocol Specification
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 August 2021.
+   This Internet-Draft will expire on 9 January 2022.
 
 Copyright Notice
 
@@ -281,7 +281,7 @@ Table of Contents
                              commit_resp
                          <-------------------
 
-     cInput = Generate(m, com)
+     cInput = Generate(m, commit_resp)
      req = cInput.req
 
                                  req
@@ -297,26 +297,26 @@ Table of Contents
 
    Note that the first round of the protocol is only necessitated for
    certain ciphersuites that require client and servers commit to some
-   value.  When such commitment "com" is generated and sent to the
-   client, the client returns "com" with the "IssuanceRequest" message.
-   The server MUST check that the commitment corresponds to "com" that
-   was previously committed.  This requires the commitment to either be
-   a reference to some commitment on the server, or the commitment be an
-   encrypted (and authenticated) blob that the server can use to recover
-   commitment.  The mechanism by which servers handle this commitment is
-   implementation specific, and similar to how TLS session resumption
-   state is managed; see [RFC8446] for details.  In addition, the
-   "Commit" function is implementation-specific and MUST be defined by
-   the underlying ciphersuite.
+   value.  When such commitment "commit_resp" is generated and sent to
+   the client, the client returns "commit_resp" with the
+   "IssuanceRequest" message.  The server MUST check that the commitment
+   corresponds to "commit_resp" that was previously committed.  This
+   requires the commitment to either be a reference to some commitment
+   on the server, or the commitment be an encrypted (and authenticated)
+   blob that the server can use to recover commitment.  The mechanism by
+   which servers handle this commitment is implementation specific, and
+   similar to how TLS session resumption state is managed; see [RFC8446]
+   for details.  In addition, the "Commit" function is implementation-
+   specific and MUST be defined by the underlying ciphersuite.
 
    When the server does not need to generate this commitment, the client
    instead DOES NOT send the "CommitRequest" message, and runs:
 
    cInput = Generate(m, "")
 
-   A server that is expecting some non-empty "com" to be passed must
-   abort the protocol on receiving a request containing an empty "com"
-   value.
+   A server that is expecting some non-empty "commit_resp" to be passed
+   must abort the protocol on receiving a request containing an empty
+   "commit_resp" value.
 
    Note: currently, no ciphersuites are supported that support working
    with empty commitment messages.
@@ -855,13 +855,14 @@ Table of Contents
    inputs to the "Unblind" function for verifying the batched proof
    object.
 
-Process(pkS, input, resp):
-  unblindedTokens = Unblind(input.data, resp.elements, input.req, pkS, resp.proof)
-  redemptionTokens = []
-  for bt in unblindedTokens:
-    rt = RedemptionToken { data: input.data, issued: bt }
-    redemptionTokens[i] = rt
-  return redemptionTokens
+   Process(pkS, input, resp):
+     unblindedTokens = Unblind(input.data, resp.elements,
+                                 input.req, pkS, resp.proof)
+     redemptionTokens = []
+     for bt in unblindedTokens:
+       rt = RedemptionToken { data: input.data, issued: bt }
+       redemptionTokens[i] = rt
+     return redemptionTokens
 
 7.3.4.  Redeem
 
@@ -1001,9 +1002,9 @@ Process(pkS, input, resp):
               Davidson, A., Faz-Hernandez, A., Sullivan, N., and C. A.
               Wood, "Oblivious Pseudorandom Functions (OPRFs) using
               Prime-Order Groups", Work in Progress, Internet-Draft,
-              draft-irtf-cfrg-voprf-06, 21 February 2021,
+              draft-irtf-cfrg-voprf-07, 6 July 2021,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              voprf-06.txt>.
+              voprf-07>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
