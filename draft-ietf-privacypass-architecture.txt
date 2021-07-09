@@ -5,8 +5,8 @@
 Network Working Group                                        A. Davidson
 Internet-Draft                                                       LIP
 Intended status: Informational                                 C.A. Wood
-Expires: 6 September 2021                                     Cloudflare
-                                                            5 March 2021
+Expires: 10 January 2022                                      Cloudflare
+                                                             9 July 2021
 
 
                   Privacy Pass Architectural Framework
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 September 2021.
+   This Internet-Draft will expire on 10 January 2022.
 
 Copyright Notice
 
@@ -621,6 +621,53 @@ Table of Contents
    this trade-off is important in deciding the effective anonymity of
    each client in the system.
 
+8.2.1.1.  Redemption Contexts
+
+   Another option to allow a large number of servers in the ecosystem,
+   while preventing the joining of a number of different tokens is for
+   the client to maintain sharded "redemption contexts".  This would
+   allow the client to redeem the tokens it wishes to use in a
+   particular context, while still allowing the client to maintain a
+   large variety of tokens from many servers.  Within a redemption
+   context, the client limits the number of different servers used to a
+   small number to maintain the privacy properties the client requires.
+   As long as each redemption context maintains a strong privacy
+   boundary with each other, the verifier will only be able to learn a
+   number of bits of information up to the limits within that
+   "redemption context".
+
+   To support this strategy, the client keeps track of a "context" which
+   contains the set of servers that redemptions have been attempted
+   against.  An empty redemption is returned when the limit has been
+   hit:
+
+     Client(context, server)                     Server(skS, pkS)
+     ------------------------------------------------------------
+     if server not in context {
+       if context.length > REDEEM_LIMIT {
+         Output {}
+         return
+       }
+       context.push(server)
+     }
+     token = store[server.id].pop()
+     req = Redeem(token, info)
+
+                                  req
+                           ------------------>
+
+                                  if (dsIdx.includes(req.data)) {
+                                    raise ERR_DOUBLE_SPEND
+                                  }
+                                  resp = Verify(pkS, skS, req)
+                                  if resp.success {
+                                    dsIdx.push(req.data)
+                                  }
+
+                                   resp
+                           <------------------
+     Output resp
+
 8.3.  Partitioning of server key material
 
    If there are multiple key registries, or if a key registry colludes
@@ -931,14 +978,14 @@ Table of Contents
               Valdez, S., "Privacy Pass HTTP API", Work in Progress,
               Internet-Draft, draft-ietf-privacypass-http-api-00, 5
               January 2021, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-privacypass-http-api-00.txt>.
+              draft-ietf-privacypass-http-api-00>.
 
    [I-D.ietf-privacypass-protocol]
               Celi, S., Davidson, A., and A. Faz-Hernandez, "Privacy
               Pass Protocol Specification", Work in Progress, Internet-
               Draft, draft-ietf-privacypass-protocol-01, 22 February
               2021, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              privacypass-protocol-01.txt>.
+              privacypass-protocol-01>.
 
    [KLOR20]   Kreuter, B., Lepoint, T., Orrù, M., and M. Raykova,
               "Anonymous Tokens with Private Metadata Bit", Advances in
