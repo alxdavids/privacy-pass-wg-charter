@@ -625,15 +625,16 @@ Table of Contents
 
    Another option to allow a large number of servers in the ecosystem,
    while preventing the joining of a number of different tokens is for
-   the client to maintain sharded "redemption contexts", which allows
-   the client to redeem the tokens it wishes to use in a particular
-   context, while still allowing the client to maintain a large variety
-   of tokens from many servers.  Within a redemption context, the client
-   limits the number of different servers used to a small number to
-   maintain the privacy properties the client requires.  As long as each
-   redemption context maintains a strong privacy boundary with each
-   other, the verifier will only be able to learn a number of bits of
-   information up to the limits within that "redemption context".
+   the client to maintain sharded "redemption contexts".  This would
+   allow the client to redeem the tokens it wishes to use in a
+   particular context, while still allowing the client to maintain a
+   large variety of tokens from many servers.  Within a redemption
+   context, the client limits the number of different servers used to a
+   small number to maintain the privacy properties the client requires.
+   As long as each redemption context maintains a strong privacy
+   boundary with each other, the verifier will only be able to learn a
+   number of bits of information up to the limits within that
+   "redemption context".
 
    To support this strategy, the client keeps track of a "context" which
    contains the set of servers that redemptions have been attempted
