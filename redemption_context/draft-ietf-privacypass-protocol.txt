@@ -5,10 +5,10 @@
 Network Working Group                                            S. Celi
 Internet-Draft                                                Cloudflare
 Intended status: Informational                               A. Davidson
-Expires: 9 January 2022                                              LIP
+Expires: 10 January 2022                                             LIP
                                                         A. Faz-Hernandez
                                                               Cloudflare
-                                                             8 July 2021
+                                                             9 July 2021
 
 
                   Privacy Pass Protocol Specification
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2022.
+   This Internet-Draft will expire on 10 January 2022.
 
 Copyright Notice
 

@@ -5,8 +5,8 @@
 Network Working Group                                        A. Davidson
 Internet-Draft                                                       LIP
 Intended status: Informational                                 C.A. Wood
-Expires: 9 January 2022                                       Cloudflare
-                                                             8 July 2021
+Expires: 10 January 2022                                      Cloudflare
+                                                             9 July 2021
 
 
                   Privacy Pass Architectural Framework
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2022.
+   This Internet-Draft will expire on 10 January 2022.
 
 Copyright Notice
 
@@ -624,7 +624,7 @@ Table of Contents
 8.2.1.1.  Redemption Contexts
 
    Another option to allow a large number of servers in the ecosystem,
-   while preventing the joining of a bunch of different tokens is for
+   while preventing the joining of a number of different tokens is for
    the client to maintain sharded "redemption contexts", which allows
    the client to redeem the tokens it wishes to use in a particular
    context, while still allowing the client to maintain a large variety
