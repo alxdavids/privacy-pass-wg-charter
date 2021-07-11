@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-06-01T02:26:23.077666+00:00",
+  "timestamp": "2021-07-11T00:54:04.102139+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1030,17 +1030,17 @@
       "id": "MDU6SXNzdWU4MzAzMTcxMjU=",
       "title": "Add redemption contexts",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/66",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [
         "dvorak42"
       ],
       "labels": [],
       "body": "As discussed during IETF 110, the architecture document should provide guidance on how redemption contexts can be used and how they impact privacy. This is a bit of the calculus we don't yet have.\r\n\r\ncc @dvorak42, @alxdavids ",
       "createdAt": "2021-03-12T17:28:51Z",
-      "updatedAt": "2021-03-29T16:22:26Z",
-      "closedAt": null,
+      "updatedAt": "2021-07-09T15:09:59Z",
+      "closedAt": "2021-07-09T15:09:59Z",
       "comments": [
         {
           "author": "dvorak42",
@@ -1051,7 +1051,7 @@
         },
         {
           "author": "chris-wood",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "Yep \ud83d\udc4d should we split out the HTTP work into a separate issue?",
           "createdAt": "2021-03-12T18:01:58Z",
           "updatedAt": "2021-03-12T18:01:58Z"
@@ -1115,15 +1115,15 @@
       "id": "MDU6SXNzdWU4OTQ0MTg4MDM=",
       "title": "RFC8446 vector syntax is used incorrectly",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/68",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tgr",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "The [Data structures section](https://github.com/ietf-wg-privacypass/base-drafts/blob/master/draft-ietf-privacypass-protocol.md#data-structures-pp-structs) of the protocol draft says *\"data structures ... are written in the TLS presentation language (RFC8446)\"*. Per [RFC8446 3.4](https://datatracker.ietf.org/doc/html/rfc8446#section-3.4),  vectors are defined as `<item type> <vector type>[n]` where n is the length of the vector in **bytes**. (*\"In either case, the length declares the number of bytes, not the number of elements, in the vector.\"*) In the draft, though, the length is specified by number of items, not number of bytes.",
       "createdAt": "2021-05-18T14:01:33Z",
-      "updatedAt": "2021-05-18T14:01:33Z",
-      "closedAt": null,
+      "updatedAt": "2021-07-09T15:09:50Z",
+      "closedAt": "2021-07-09T15:09:50Z",
       "comments": []
     },
     {
@@ -1149,6 +1149,22 @@
           "updatedAt": "2021-05-31T14:30:47Z"
         }
       ]
+    },
+    {
+      "number": 77,
+      "id": "MDU6SXNzdWU5NDA3OTcwNjI=",
+      "title": "Pin protocol messages to underlying cryptographic scheme",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/77",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Protocols like VOPRF and blind RSA/BLS have different semantics and wire images. As an example, batching seems to be a per-crypto-protocol property. VOPRF supports it, whereas BLS/RSA do not.\r\n\r\nTrying to map these to a shared wire format seems a bit awkward. I recommend we parameterize all PP protocol messages based on the underlying cryptographic construction. So, for example:\r\n\r\n```\r\nenum {\r\n\tVOPRF,\r\n\tBlindRSA,\r\n} Protocol;\r\n\r\nstruct {\r\n\tProtocol proto;\r\n\tuint16 length; // allows skipping over unknown protocols\r\n\tselect (proto) {\r\n\t\tcase VOPRF:\r\n\t\t\topaque blind_elements<1..2^16-1>;\r\n  \t\tcase BlindRSA:\r\n  \t\t\topaque blinded_msg[kLen];\r\n\t}\r\n} IssuanceRequest;\r\n\r\nstruct {\r\n\tProtocol proto;\r\n\tuint16 length; // allows skipping over unknown protocols\r\n\tselect (proto) {\r\n\t\tcase VOPRF:\r\n\t\t\tIssuedToken tokens[m];\r\n  \t\t\topaque proof<1..2^16-1>;\r\n  \t\tcase BlindRSA:\r\n  \t\t\topaque blind_sig[kLen];\r\n\t}\r\n} IssuanceResponse;\r\n```\r\n\r\n(The same should probably apply to redemption messages as well.)\r\n\r\nWe can then refactor the document to only specify how these protocol messages are constructed and parsed, rather than specify how implementation-specific details should work.",
+      "createdAt": "2021-07-09T14:05:22Z",
+      "updatedAt": "2021-07-09T14:06:23Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -3603,6 +3619,139 @@
           ]
         }
       ]
+    },
+    {
+      "number": 75,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg2MTgxOTY2",
+      "title": "Add redemption context discussion to architecture and HTTP API.",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/75",
+      "state": "MERGED",
+      "author": "dvorak42",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Initial work for fixing #66 .",
+      "createdAt": "2021-07-08T16:58:43Z",
+      "updatedAt": "2021-07-09T15:00:28Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "cde660567c79230d4ac514e2567445ae478b63e2",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "redemption_context",
+      "headRefOid": "96c4a340785c0af85acfb184ed260e7a4a3fd073",
+      "closedAt": "2021-07-09T15:00:28Z",
+      "mergedAt": "2021-07-09T15:00:28Z",
+      "mergedBy": "dvorak42",
+      "mergeCommit": {
+        "oid": "644b2fe6855286cf90c7b54795f5045e1bfb952c"
+      },
+      "comments": [
+        {
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@chris-wood ",
+          "createdAt": "2021-07-08T16:59:43Z",
+          "updatedAt": "2021-07-08T16:59:43Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAyODAwNTM0",
+          "commit": {
+            "abbreviatedOid": "c58929d"
+          },
+          "author": "alxdavids",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Thanks @dvorak42! This looks good, I have mostly just a few nits to resolve. ",
+          "createdAt": "2021-07-09T08:18:23Z",
+          "updatedAt": "2021-07-09T08:24:15Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\nwhile preventing the joining of a number of different tokens is for the\r\n```",
+              "createdAt": "2021-07-09T08:18:23Z",
+              "updatedAt": "2021-07-09T08:24:06Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nclient to maintain sharded \"redemption contexts\". This would allow the\r\n```",
+              "createdAt": "2021-07-09T08:18:57Z",
+              "updatedAt": "2021-07-09T08:24:06Z"
+            },
+            {
+              "originalPosition": 43,
+              "body": "To keep consistent with the other boolean checks\r\n```suggestion\r\n                               if resp.success {\r\n```",
+              "createdAt": "2021-07-09T08:20:17Z",
+              "updatedAt": "2021-07-09T08:24:06Z"
+            },
+            {
+              "originalPosition": 62,
+              "body": "Should we link back to the architecture doc here as well, just to reinforce the connection.\r\n```suggestion\r\nstorage. Generally this is the top-level origin. Any redemption context should be built following the principles outlined in {{draft-ietf-privacypass-architecture}} and later in {{privacy}}.\r\n```",
+              "createdAt": "2021-07-09T08:21:34Z",
+              "updatedAt": "2021-07-09T08:24:06Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\nagainst. An empty redemption is returned when the limit has been\r\n```",
+              "createdAt": "2021-07-09T08:23:18Z",
+              "updatedAt": "2021-07-09T08:24:06Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 76,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg2ODEyNjgw",
+      "title": "Awkward binding to blind RSA.",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/76",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This at least tries to show that such a mapping is possible. It's very far from perfect. There are a lot of rough edges in the protocol shape. I'll file separate issues to clean them up.\r\n\r\nOpening as a draft purely for _demonstration purposes_.",
+      "createdAt": "2021-07-09T14:00:42Z",
+      "updatedAt": "2021-07-09T14:00:42Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "cde660567c79230d4ac514e2567445ae478b63e2",
+      "headRepository": "chris-wood/privacy-pass-ietf",
+      "headRefName": "caw/draft-rsa-binding",
+      "headRefOid": "b8c13dd7ba14700afc128266a9df4b79e3766b28",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 78,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg2ODI2NTQx",
+      "title": "Add metadata considerations #63",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/78",
+      "state": "OPEN",
+      "author": "claucece",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-07-09T14:19:34Z",
+      "updatedAt": "2021-07-09T14:19:39Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "cde660567c79230d4ac514e2567445ae478b63e2",
+      "headRepository": "claucece/privacy-pass-ietf",
+      "headRefName": "master",
+      "headRefOid": "707a273e745eeafb2475d3ef87625325bff3ba35",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
